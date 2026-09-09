@@ -50,9 +50,9 @@ in:
 | **significant** | real difference, safe to act on | direction probably right, magnitude inflated |
 | **not significant** | evidence of *absence* | inconclusive — not "no effect" |
 
-Effect size is reported on three scales, because they argue differently: a
-0.8 percentage-point drop in D7 retention is also a 4% relative drop, and
-Cohen's *h* is what lets you compare it to a change in a metric with a
+Effect size is reported on three scales, because they argue differently: the
+0.8 percentage-point drop in D7 retention below is also a 4.3% relative drop,
+and Cohen's *h* is what lets you compare it to a change in a metric with a
 totally different base rate.
 
 ## Architecture
@@ -113,7 +113,7 @@ wilson_interval(0, 10)   # -> (0.0, 0.2775)  -- not the degenerate (0, 0) the no
 from game_analytics_toolkit.ab_test import analyze_metric, summarize, required_sample_size
 
 # How big does the experiment need to be, before running it?
-required_sample_size(baseline_rate=0.19, minimum_detectable_effect=0.01)   # -> 24,709 per arm
+required_sample_size(baseline_rate=0.19, minimum_detectable_effect=0.01)   # -> 24,641 per arm
 
 result = analyze_metric(df, "retention_7", minimum_detectable_effect=0.01)
 print(summarize(result))
@@ -149,27 +149,32 @@ python examples/run_analysis.py
 
 ## Findings
 
-Run against the Kaggle download, the analysis reaches this conclusion:
-**moving the gate from level 30 to level 40 did not improve retention, and
-7-day retention got measurably worse.**
+The conclusion, on the full 90,189-player dataset: **moving the gate from
+level 30 to level 40 did not improve retention, and 7-day retention got
+measurably worse.**
 
-- **D1 retention** is about **44.8%** (gate_30) vs **44.2%** (gate_40) — a
-  difference of roughly half a percentage point that does not clear
-  significance at α = 0.05.
-- **D7 retention** is about **19.0%** (gate_30) vs **18.2%** (gate_40) — a
-  drop of roughly 0.8 percentage points (about 4% relative) that *is*
-  significant.
-- With ~45,000 players per arm, the experiment is comfortably powered to
-  detect a 1 percentage-point move, which is what makes the D1 non-result
-  informative rather than merely inconclusive: it is evidence the gate move
-  did not help, not a shrug.
+| metric | gate_30 (control) | gate_40 (treatment) | absolute Δ | relative Δ | χ² p-value | powered? |
+|---|---|---|---|---|---|---|
+| **D1 retention** | 44.82% | 44.23% | −0.59 pp | −1.3% | 0.074 — **not significant** | yes (85%) |
+| **D7 retention** | 19.02% | 18.20% | −0.82 pp | −4.3% | 0.0016 — **significant** | yes (96%) |
 
-The product read: the gate at level 30 is doing useful work, and pushing it
-to 40 costs retention. Keep it where it is.
+- The **D7 drop is real**: the 95% interval on the difference is
+  [−1.33, −0.31] pp — entirely below zero — and with ~45,000 players per arm
+  the test had 96% power to catch a 1 pp move.
+- The **D1 non-result is informative, not a shrug**: that same sample was
+  powered (85%) to detect a 1 pp change and didn't, so this is evidence the
+  gate move did not help D1, not merely absence of evidence.
+- `sum_gamerounds` carries the dataset's famous outlier — one gate_30 player
+  logged 49,854 rounds against a median of ~16 — which is why `report.py`
+  summarises play counts with the median and drops the top 1% from the
+  distribution plot rather than letting one row set the axis.
 
-> Every figure above is printed by `examples/run_analysis.py`. Run it against
-> your own download to reproduce them — that is the point of building this on
-> public data.
+The product read: the gate at level 30 is doing useful work; pushing it to 40
+costs 7-day retention. Keep it where it is.
+
+> Every number in this section is printed by `examples/run_analysis.py`. The
+> table above is that script's output on the Kaggle CSV — re-run it to
+> reproduce, which is the point of building this on public data.
 
 ## Development
 
