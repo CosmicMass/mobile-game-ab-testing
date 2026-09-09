@@ -1,0 +1,40 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "game-analytics-toolkit"
+version = "0.1.0"
+description = "Retention and A/B-test analysis for mobile game player data, from raw export to a defensible decision"
+requires-python = ">=3.10"
+readme = "README.md"
+license = { text = "MIT" }
+dependencies = [
+    "pandas>=2.0.0",
+    "scipy>=1.10.0",
+    "plotly>=5.18.0",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0", "pyright>=1.1.400", "pandas-stubs>=2.2", "numpy>=1.26"]
+
+[tool.pyright]
+include = ["src", "examples"]
+# Specifying our own exclude REPLACES pyright's defaults, it does not merge
+# with them -- so **/node_modules and **/.* (all dotfiles/dotdirs) are kept
+# here explicitly. "examples" is in include on purpose: a runnable example
+# that stops type-checking is an example that quietly rots.
+exclude = ["**/__pycache__", ".venv", "**/node_modules", "**/.*"]
+typeCheckingMode = "basic"
+reportMissingImports = "error"
+# Without these pyright resolves imports against whatever interpreter it finds
+# on PATH rather than the project venv, and reports every third-party import as
+# unresolved -- 9 phantom errors that look like a code problem and are not.
+venvPath = "."
+venv = ".venv"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

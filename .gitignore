@@ -1,0 +1,13 @@
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.pyright/
+*.egg-info/
+build/
+dist/
+examples/output/
+
+# The dataset is a public download, not committed here -- see data/README.md.
+data/*
+!data/README.md
