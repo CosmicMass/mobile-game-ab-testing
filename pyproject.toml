@@ -26,9 +26,17 @@ figures = ["kaleido>=1.0"]
 include = ["src", "examples", "docs"]
 # Specifying our own exclude REPLACES pyright's defaults, it does not merge
 # with them -- so **/node_modules and **/.* (all dotfiles/dotdirs) are kept
-# here explicitly. "examples" is in include on purpose: a runnable example
-# that stops type-checking is an example that quietly rots.
-exclude = ["**/__pycache__", ".venv", "**/node_modules", "**/.*"]
+# here explicitly. "examples" and "docs" are in include on purpose: a
+# runnable script that stops type-checking is one that quietly rots.
+#
+# "tests" is excluded, not merely left out of include: an editor's language
+# server type-checks any file you open regardless of include, and the test
+# suite pokes at pandas `.loc[label, col]` scalars (stubbed as a union that
+# contains `complex`, so `int(...)` "fails") and plotly trace internals
+# (`figure.data[0].x`, loosely typed) -- correct at runtime, un-typeable
+# without burying every assertion in casts. The shipped library and the
+# example scripts are the type-checked surface; the tests are run, not typed.
+exclude = ["**/__pycache__", ".venv", "**/node_modules", "**/.*", "tests"]
 typeCheckingMode = "basic"
 reportMissingImports = "error"
 # Without these pyright resolves imports against whatever interpreter it finds

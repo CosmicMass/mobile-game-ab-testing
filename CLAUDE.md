@@ -22,9 +22,12 @@ degrading on a zero-variance arm — looked fine on inspection.
 - Run `python -m pytest tests/ -v` and `python -m pyright` yourself before
   stating a result. Don't report a count or an error total you haven't just
   produced.
-- `pyright`'s `include` covers `src` and `examples` (see `pyproject.toml`),
-  and `venvPath`/`venv` point it at `.venv`. If you add a new top-level
-  directory with Python files, add it to `include` too, or it goes unchecked.
+- `pyright`'s `include` covers `src`, `examples` and `docs` (see
+  `pyproject.toml`), and `venvPath`/`venv` point it at `.venv`. If you add a
+  new top-level directory with Python files, add it to `include` too, or it
+  goes unchecked. `tests` is deliberately in `exclude`, not just absent from
+  `include` — the reasoning is in the `pyproject.toml` comment; the suite is
+  run, not type-gated.
 - A statistical function that agrees with itself can still be uniformly
   wrong. The checks that catch that are in `tests/test_ab_test.py`: the
   round-trip (`achieved_power` must invert `required_sample_size`) and
