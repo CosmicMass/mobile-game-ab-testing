@@ -23,27 +23,27 @@ from typing import List
 import numpy as np
 import pandas as pd
 
-from game_analytics_toolkit.ab_test import (
+from mobile_game_ab_testing.ab_test import (
     ABTestResult,
     analyze_metric,
     summarize,
     summary_frame,
 )
-from game_analytics_toolkit.loader import (
+from mobile_game_ab_testing.loader import (
     GROUP_COLUMN,
     KNOWN_GROUPS,
     RETENTION_COLUMNS,
     group_sizes,
     load_cookie_cats,
 )
-from game_analytics_toolkit.report import (
+from mobile_game_ab_testing.report import (
     build_html_report,
     effect_figure,
     playtime_figure,
     retention_figure,
     retention_summary_frame,
 )
-from game_analytics_toolkit.retention import (
+from mobile_game_ab_testing.retention import (
     RetentionRate,
     playtime_by_group,
     retention_by_group,

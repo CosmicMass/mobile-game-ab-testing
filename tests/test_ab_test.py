@@ -1,5 +1,5 @@
 """
-Unit tests for game_analytics_toolkit.ab_test
+Unit tests for mobile_game_ab_testing.ab_test
 
 The statistical functions are checked three ways: against closed-form values
 computed by hand, against each other (the sample-size and power formulas must
@@ -20,7 +20,7 @@ import numpy as np
 import pandas as pd
 import pytest
 
-from game_analytics_toolkit.ab_test import (
+from mobile_game_ab_testing.ab_test import (
     GroupOutcome,
     TwoGroupOutcome,
     achieved_power,

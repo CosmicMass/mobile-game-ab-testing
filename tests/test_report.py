@@ -1,5 +1,5 @@
 """
-Unit tests for game_analytics_toolkit.report
+Unit tests for mobile_game_ab_testing.report
 
 Figures are checked structurally -- trace counts, plotted values, the presence
 of the zero line and the intervals -- rather than by image comparison. What
@@ -17,8 +17,8 @@ import numpy as np
 import pandas as pd
 import pytest
 
-from game_analytics_toolkit.ab_test import analyze_metric
-from game_analytics_toolkit.report import (
+from mobile_game_ab_testing.ab_test import analyze_metric
+from mobile_game_ab_testing.report import (
     DARK_PALETTE,
     LIGHT_PALETTE,
     build_html_report,
@@ -28,7 +28,7 @@ from game_analytics_toolkit.report import (
     retention_figure,
     retention_summary_frame,
 )
-from game_analytics_toolkit.retention import retention_by_group, retention_table
+from mobile_game_ab_testing.retention import retention_by_group, retention_table
 
 SEED = 20260909
 
@@ -121,7 +121,7 @@ class TestRetentionFigure:
         assert "overall" not in {trace.name for trace in figure.data}
 
     def test_raises_when_only_overall_rows_are_given(self):
-        from game_analytics_toolkit.retention import retention_rate
+        from mobile_game_ab_testing.retention import retention_rate
 
         with pytest.raises(ValueError, match="no per-group rates"):
             retention_figure([retention_rate(frame(), "retention_1")])

@@ -1,4 +1,4 @@
-"""game_analytics_toolkit: retention and A/B-test analysis for mobile game
+"""mobile_game_ab_testing: retention and A/B-test analysis for mobile game
 player data.
 
 Four stages, mirroring how an experiment analysis actually runs:

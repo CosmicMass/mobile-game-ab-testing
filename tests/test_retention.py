@@ -1,5 +1,5 @@
 """
-Unit tests for game_analytics_toolkit.retention
+Unit tests for mobile_game_ab_testing.retention
 
 Run this file only:
     python -m pytest tests/test_retention.py -v
@@ -10,7 +10,7 @@ import math
 import pandas as pd
 import pytest
 
-from game_analytics_toolkit.retention import (
+from mobile_game_ab_testing.retention import (
     playtime_by_group,
     retention_by_group,
     retention_rate,

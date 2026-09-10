@@ -1,7 +1,8 @@
-# Game Analytics Toolkit
+# Mobile Game A/B Testing
 
-Retention and A/B-test analysis for mobile game player data, from a raw
-export to a decision you can defend.
+A worked retention and A/B-test analysis of a real mobile-game experiment,
+from the raw export to a decision you can defend — with a tested, reusable
+statistics core (`ab_test.py`, `retention.py`).
 
 ## About this project
 
@@ -13,9 +14,11 @@ anyone can download and re-run. The code — schema validation, interval
 estimation, the sample-size / power / chi-square / effect-size pipeline, the
 reporting — is my own, written to the same engineering bar as its sibling
 [data-reconciliation-toolkit](https://github.com/CosmicMass/data-reconciliation-toolkit),
-which *is* extracted from production work. The point of this repo is to show
-retention and experiment-analysis technique end to end on data you can check
-me on.
+which *is* extracted from production work. This one is a single analysis done
+properly, not a library: `loader.py` is specific to this dataset, while
+`ab_test.py` and `retention.py` are written to be lifted into other work
+unchanged. The point of the repo is to show retention and
+experiment-analysis technique end to end on data you can check me on.
 
 ## The question
 
@@ -58,7 +61,7 @@ totally different base rate.
 ## Architecture
 
 ```
-src/game_analytics_toolkit/
+src/mobile_game_ab_testing/
 ├── loader.py      # CSV loading, schema + dtype validation, refuse-to-load
 ├── retention.py   # D1/D7 rates per group, with Wilson intervals
 ├── ab_test.py     # sample size & power, chi-square, effect size, verdict
@@ -91,7 +94,7 @@ truthy, so retention silently reads as 100%. The loader's job is to make that
 impossible.
 
 ```python
-from game_analytics_toolkit.loader import load_cookie_cats
+from mobile_game_ab_testing.loader import load_cookie_cats
 
 df = load_cookie_cats("data/cookie_cats.csv")   # or SchemaError listing every problem at once
 ```
@@ -99,7 +102,7 @@ df = load_cookie_cats("data/cookie_cats.csv")   # or SchemaError listing every p
 ### retention — a rate is not a number, it's a number with a width
 
 ```python
-from game_analytics_toolkit.retention import retention_by_group, wilson_interval
+from mobile_game_ab_testing.retention import retention_by_group, wilson_interval
 
 for rate in retention_by_group(df, "retention_7"):
     print(rate.group, rate.rate, rate.ci_low, rate.ci_high)
@@ -110,7 +113,7 @@ wilson_interval(0, 10)   # -> (0.0, 0.2775)  -- not the degenerate (0, 0) the no
 ### ab_test — is it real, and could we even have seen it?
 
 ```python
-from game_analytics_toolkit.ab_test import analyze_metric, summarize, required_sample_size
+from mobile_game_ab_testing.ab_test import analyze_metric, summarize, required_sample_size
 
 # How big does the experiment need to be, before running it?
 required_sample_size(baseline_rate=0.19, minimum_detectable_effect=0.01)   # -> 24,641 per arm
@@ -123,7 +126,7 @@ print(result.verdict)
 ### report — the numbers as figures
 
 ```python
-from game_analytics_toolkit.report import retention_figure, effect_figure, build_html_report
+from mobile_game_ab_testing.report import retention_figure, effect_figure, build_html_report
 
 build_html_report(
     "examples/output/report.html",

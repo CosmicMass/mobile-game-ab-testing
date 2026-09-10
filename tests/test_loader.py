@@ -1,5 +1,5 @@
 """
-Unit tests for game_analytics_toolkit.loader
+Unit tests for mobile_game_ab_testing.loader
 
 Run this file only:
     python -m pytest tests/test_loader.py -v
@@ -10,7 +10,7 @@ from pathlib import Path
 import pandas as pd
 import pytest
 
-from game_analytics_toolkit.loader import (
+from mobile_game_ab_testing.loader import (
     SchemaError,
     coerce_dtypes,
     group_sizes,

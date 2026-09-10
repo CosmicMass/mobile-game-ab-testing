@@ -10,7 +10,7 @@ a third ``version`` value from a re-export, a duplicated ``userid`` from a
 bad concat -- does not crash. It produces a plausible-looking number that is
 quietly wrong, which is the one outcome an experiment readout must never
 have. So the loader's job is to fail loudly *here*, with every problem
-listed at once, or return a frame the rest of the toolkit can rely on.
+listed at once, or return a frame the rest of the analysis can rely on.
 
 The column contract is specific to this dataset by design; ``validate_frame``
 is reusable on any equivalently shaped export by passing your own column
