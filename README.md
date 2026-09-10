@@ -1,5 +1,7 @@
 # Mobile Game A/B Testing
 
+[![CI](https://github.com/CosmicMass/mobile-game-ab-testing/actions/workflows/ci.yml/badge.svg)](https://github.com/CosmicMass/mobile-game-ab-testing/actions/workflows/ci.yml)
+
 A worked retention and A/B-test analysis of a real mobile-game experiment,
 from the raw export to a decision you can defend — with a tested, reusable
 statistics core (`ab_test.py`, `retention.py`).
@@ -185,6 +187,10 @@ costs 7-day retention. Keep it where it is.
 python -m pytest tests/ -v      # 160 tests
 python -m pyright               # 0 errors
 ```
+
+Both run in [CI](.github/workflows/ci.yml) on every push — the test job
+across Python 3.10 through 3.13, so the `requires-python` floor is a claim
+the badge actually backs.
 
 The statistical functions are checked three ways: against closed-form values
 computed by hand, against each other (the sample-size and power formulas must
