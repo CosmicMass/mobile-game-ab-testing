@@ -163,23 +163,35 @@ measurably worse.**
 | **D1 retention** | 44.82% | 44.23% | −0.59 pp | −1.3% | 0.074 — **not significant** | yes (85%) |
 | **D7 retention** | 19.02% | 18.20% | −0.82 pp | −4.3% | 0.0016 — **significant** | yes (96%) |
 
+![Retention rate by group for D1 and D7, gate_30 versus gate_40, each bar
+labelled and capped with its 95% Wilson interval](docs/retention.png)
+
 - The **D7 drop is real**: the 95% interval on the difference is
   [−1.33, −0.31] pp — entirely below zero — and with ~45,000 players per arm
   the test had 96% power to catch a 1 pp move.
 - The **D1 non-result is informative, not a shrug**: that same sample was
   powered (85%) to detect a 1 pp change and didn't, so this is evidence the
   gate move did not help D1, not merely absence of evidence.
+
+![Treatment-minus-control effect for D1 and D7 with 95% confidence intervals,
+against a zero reference line; the D1 interval touches zero, the D7 interval
+sits entirely below it](docs/effect.png)
+
 - `sum_gamerounds` carries the dataset's famous outlier — one gate_30 player
   logged 49,854 rounds against a median of ~16 — which is why `report.py`
   summarises play counts with the median and drops the top 1% from the
   distribution plot rather than letting one row set the axis.
 
+![Box plot of rounds played per group with the top 1% of users excluded from
+the view; the two groups' distributions are almost identical](docs/playtime.png)
+
 The product read: the gate at level 30 is doing useful work; pushing it to 40
 costs 7-day retention. Keep it where it is.
 
-> Every number in this section is printed by `examples/run_analysis.py`. The
-> table above is that script's output on the Kaggle CSV — re-run it to
-> reproduce, which is the point of building this on public data.
+> Every number in this section is printed by `examples/run_analysis.py`, and
+> every figure is written by `docs/render_figures.py` (`pip install -e
+> ".[figures]"` first) — both run against the Kaggle CSV, so nothing here is
+> hand-drawn or hand-typed. Re-run them to reproduce.
 
 ## Development
 

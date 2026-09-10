@@ -17,9 +17,13 @@ dependencies = [
 
 [project.optional-dependencies]
 dev = ["pytest>=8.0", "pyright>=1.1.400", "pandas-stubs>=2.2", "numpy>=1.26"]
+# Only needed to regenerate the README images via docs/render_figures.py.
+# Kept out of `dev` because it pulls a headless-Chrome download it never uses
+# in the test or type-check path.
+figures = ["kaleido>=1.0"]
 
 [tool.pyright]
-include = ["src", "examples"]
+include = ["src", "examples", "docs"]
 # Specifying our own exclude REPLACES pyright's defaults, it does not merge
 # with them -- so **/node_modules and **/.* (all dotfiles/dotdirs) are kept
 # here explicitly. "examples" is in include on purpose: a runnable example
